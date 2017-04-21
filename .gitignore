@@ -94,3 +94,4 @@ ENV/
 .idea
 YtinreteDjangoGallery/configs.py
 db.sqlite3
+static
