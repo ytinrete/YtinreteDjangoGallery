@@ -10,6 +10,14 @@ import os
 # Create your views here.
 
 def index(request):
+    return render(request, 'Gallery/index.html')
+
+
+def edit_photo_gallery(request):
+    return
+
+
+def index2(request):
     ctx = {}
     data_list = []
 
@@ -18,7 +26,7 @@ def index(request):
             path = Tools.url_decode(request.GET.get('path'))
             print(path)
         else:
-            path = '/Users/lirui'
+            path = '/Users/lirui/Desktop'
 
         if path != '/':
             back_block = {}
@@ -44,7 +52,7 @@ def index(request):
             data_list.append(block)
 
         ctx['data_list'] = data_list
-        return render(request, 'Gallery/index.html', ctx)
+        return render(request, 'Gallery/index2.html', ctx)
     except IOError:
         return HttpResponseServerError('无法访问当前文件夹,请返回')
     except BaseException as e:
@@ -60,9 +68,12 @@ def get_image(request):
         else:
             raise FileNotFoundError()
         with open(path, "rb") as f:
-            return HttpResponse(f.read(), content_type="image/jpeg")
+            response = HttpResponse(f.read(), content_type="image/jpeg")
+            response['Cache-Control'] = 'no-cache'
+            return response
     except IOError:
         red = Image.new('RGBA', (300, 300), (255, 0, 0, 0))
         response = HttpResponse(content_type="image/jpeg")
+        response['Cache-Control'] = 'no-cache'
         red.save(response, "JPEG")
         return response

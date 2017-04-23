@@ -95,3 +95,4 @@ ENV/
 YtinreteDjangoGallery/configs.py
 db.sqlite3
 static
+MigrateData/*.txt
