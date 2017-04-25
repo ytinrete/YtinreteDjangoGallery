@@ -196,7 +196,7 @@ def copy_structure_with_pics():
 
 def construct_photo_structure():
     structure_src = YtinreteDjangoGallery.configs.PHOTO_SRC_PATH
-    structure_dist = '/Users/lirui/Desktop/testPic2'
+    structure_dist = YtinreteDjangoGallery.configs.PHOTO_Dist_PATH
 
     if os.path.exists(structure_dist):
         shutil.rmtree(structure_dist)
@@ -204,17 +204,24 @@ def construct_photo_structure():
     os.makedirs(structure_dist)
     count = 1
 
-    for group in os.listdir(structure_src):
-        if group.startswith('.'):
+    for first in os.listdir(structure_src):
+        if first.startswith('.'):
             continue
-        if not os.path.exists(structure_dist + '/' + group):
-            os.makedirs(structure_dist + '/' + group)
+        if not os.path.exists(structure_dist + '/' + first):
+            os.makedirs(structure_dist + '/' + first)
 
-        for pic in os.listdir(structure_src + '/' + group):
-            if pic.endswith('jpg'):
-                shutil.copy(structure_src + '/' + group + '/' + pic, structure_dist + '/' + group + '/' + pic)
-                count += 1
-                print("count:" + str(count))
+        for group in os.listdir(structure_src + '/' + first):
+            if group.startswith('.'):
+                continue
+            if not os.path.exists(structure_dist + '/' + first + '/' + group):
+                os.makedirs(structure_dist + '/' + first + '/' + group)
+
+            for pic in os.listdir(structure_src + '/' + first+ '/' + group):
+                if pic.endswith('jpg'):
+                    shutil.copy(structure_src+ '/' + first + '/' + group + '/'
+                                + pic, structure_dist+ '/' + first + '/' + group + '/' + pic)
+                    count += 1
+                    print("count:" + str(count))
 
 
 if __name__ == '__main__':
@@ -224,6 +231,6 @@ if __name__ == '__main__':
 
     # copy_structure_with_pics()
 
-    # construct_photo_structure()
+    construct_photo_structure()
 
     pass
