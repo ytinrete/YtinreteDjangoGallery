@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseServerError
+from django.http import JsonResponse
 
+import YtinreteDjangoGallery.configs
 from PIL import Image
 from . import Tools
 import os
@@ -11,10 +13,6 @@ import os
 
 def index(request):
     return render(request, 'Gallery/index.html')
-
-
-def edit_photo_gallery(request):
-    return
 
 
 def index2(request):
@@ -77,3 +75,19 @@ def get_image(request):
         response['Cache-Control'] = 'no-cache'
         red.save(response, "JPEG")
         return response
+
+
+def gallery_photo(request):
+    return render(request, 'Gallery/gallery_photo.html')
+
+
+def get_js_tree_path(request):
+    try:
+        if request.GET.get('path'):
+            path = Tools.url_decode(request.GET.get('path'))
+            print(path)
+        else:
+            path = YtinreteDjangoGallery.configs.PHOTO_SRC_PATH
+        return JsonResponse(Tools.get_js_tree_path(path), safe=False)
+    except IOError:
+        return HttpResponseServerError()

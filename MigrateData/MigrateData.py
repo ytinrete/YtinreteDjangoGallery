@@ -1,6 +1,7 @@
 from subprocess import call
 import os
 import shutil
+import YtinreteDjangoGallery.configs
 
 
 # call(["ls", "-l"])
@@ -193,11 +194,36 @@ def copy_structure_with_pics():
     pass
 
 
+def construct_photo_structure():
+    structure_src = YtinreteDjangoGallery.configs.PHOTO_SRC_PATH
+    structure_dist = '/Users/lirui/Desktop/testPic2'
+
+    if os.path.exists(structure_dist):
+        shutil.rmtree(structure_dist)
+
+    os.makedirs(structure_dist)
+    count = 1
+
+    for group in os.listdir(structure_src):
+        if group.startswith('.'):
+            continue
+        if not os.path.exists(structure_dist + '/' + group):
+            os.makedirs(structure_dist + '/' + group)
+
+        for pic in os.listdir(structure_src + '/' + group):
+            if pic.endswith('jpg'):
+                shutil.copy(structure_src + '/' + group + '/' + pic, structure_dist + '/' + group + '/' + pic)
+                count += 1
+                print("count:" + str(count))
+
+
 if __name__ == '__main__':
     # load_from_data_txt()
 
     # move_from_exist()
 
-    copy_structure_with_pics()
+    # copy_structure_with_pics()
+
+    # construct_photo_structure()
 
     pass
