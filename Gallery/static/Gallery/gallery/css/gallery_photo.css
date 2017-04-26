@@ -21,4 +21,6 @@
     text-overflow: ellipsis;
     width:700px;
     white-space: nowrap;
+    margin-left:0.4rem;
+    margin-right:0.4rem;
 }

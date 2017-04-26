@@ -38,20 +38,23 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <button class="btn btn-outline-success my-2 my-sm-0 ml-2">&lt;&lt;</button>
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-2" onclick="jump(-10)">&lt;&lt;</button>
             </li>
             <li class="nav-item">
-                <button class="btn btn-outline-success my-2 my-sm-0 ml-2">&lt;</button>
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-2" onclick="jump(-1)">&lt;</button>
             </li>
             <li class="nav-item">
-                <p class="nav-path text-white" id="navPath">...</p>
+                <p class="nav-path text-white" id="navPath"></p>
             </li>
 
             <li class="nav-item">
-                <button class="btn btn-outline-success my-2 my-sm-0 ml-2">&gt;</button>
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-2" onclick="jump(1)">&gt;</button>
             </li>
             <li class="nav-item">
-                <button class="btn btn-outline-success my-2 my-sm-0 ml-2">&gt;&gt;</button>
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-2" onclick="jump(10)">&gt;&gt;</button>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-2" onclick="jump(0)">Random</button>
             </li>
         </ul>
 
@@ -82,10 +85,6 @@
 <script src="{% static 'Gallery/gallery/js/photo_gallery.js' %}"></script>
 
 <script>
-
-
-
-
 
 
 </script>

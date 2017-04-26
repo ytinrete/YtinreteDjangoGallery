@@ -10,7 +10,48 @@ function addBlock(name, src){
     dataList.innerHTML = html
 }
 
+var requestJump;
+function jump(type){
+    console.log(type);
+    var navPath = $("#navPath").get(0)
+    var dataStr = encodeURIComponent(navPath.innerHTML)
+    console.log(dataStr);
+    if (requestJump) {
+        requestJump.abort();
+    }
+    requestJump = $.ajax({
+        url: "jumpPhoto",
+        type: "get",
+        data: {"type":type, "path":dataStr}
+    });
+    requestJump.done(function (response, textStatus, jqXHR){
+        var dataList = $("#dataList").get(0)
+        dataList.innerHTML = ""
 
+        if(response["path"]&&response["name"]){
+            addBlock(response["path"], response["path"])
+            var navPath = $("#navPath").get(0)
+            navPath.innerHTML = decodeURIComponent(response["path"])
+        }else{
+            addBlock("no such photo", "404,jpg")
+        }
+    });
+}
+
+document.addEventListener('keydown', function(event) {
+    console.log(event.keyCode);
+    if(event.keyCode == 52) {
+        jump("-10")
+    } else if(event.keyCode == 54) {
+        jump("10")
+    } else if(event.keyCode == 56) {
+        jump("-1")
+    } else if(event.keyCode == 50) {
+        jump("1")
+    } else if(event.keyCode == 48) {
+        jump("0")
+    }
+});
 
 $(function () {
     // 6 create an instance when the DOM is ready
@@ -73,7 +114,7 @@ $(function () {
   });
 
 // Variable to hold request
-var request;
+var requestSearch;
 
 // Bind to the submit event of our form
 $("#search").submit(function(event){
@@ -82,8 +123,8 @@ $("#search").submit(function(event){
     event.preventDefault();
 
     // Abort any pending request
-    if (request) {
-        request.abort();
+    if (requestSearch) {
+        requestSearch.abort();
     }
     // setup some local variables
     var $form = $(this);
@@ -100,14 +141,14 @@ $("#search").submit(function(event){
     $inputs.prop("disabled", true);
 
     // Fire off the request to /form.php
-    request = $.ajax({
+    requestSearch = $.ajax({
         url: "searchPhoto",
         type: "get",
         data: serializedData
     });
 
     // Callback handler that will be called on success
-    request.done(function (response, textStatus, jqXHR){
+    requestSearch.done(function (response, textStatus, jqXHR){
         // Log a message to the console
         console.log("Hooray, it worked!");
 
@@ -125,7 +166,7 @@ $("#search").submit(function(event){
     });
 
     // Callback handler that will be called on failure
-    request.fail(function (jqXHR, textStatus, errorThrown){
+    requestSearch.fail(function (jqXHR, textStatus, errorThrown){
         // Log the error to the console
         console.error(
             "The following error occurred: "+
@@ -135,10 +176,12 @@ $("#search").submit(function(event){
 
     // Callback handler that will be called regardless
     // if the request failed or succeeded
-    request.always(function () {
+    requestSearch.always(function () {
         // Reenable the inputs
         $inputs.prop("disabled", false);
     });
 
 });
+
+
 

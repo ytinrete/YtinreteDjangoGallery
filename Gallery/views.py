@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.http import Http404
+from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
 from django.http import JsonResponse
 
@@ -109,7 +109,29 @@ def search_photo(request):
                         res.append(block)
             return JsonResponse(res, safe=False)
         else:
-            return Http404()
+            return HttpResponseNotFound()
 
+    except IOError:
+        return HttpResponseServerError()
+
+
+def jump_photo(request):
+    try:
+        if not request.GET.get('path') or request.GET.get('path') == "":
+            path = Tools.get_random(YtinreteDjangoGallery.configs.PHOTO_DIST_PATH)
+        else:
+            path = Tools.url_decode(request.GET.get('path'))
+        type = request.GET.get('type')
+        print(path)
+        if path and type and os.path.exists(path) and os.path.isfile(path):
+            print(path)
+            print(type)
+            res = Tools.opt_jump_photo(path, type, YtinreteDjangoGallery.configs.PHOTO_DIST_PATH)
+            if res:
+                return JsonResponse(res, safe=False)
+            else:
+                return HttpResponseNotFound()
+        else:
+            return HttpResponseNotFound()
     except IOError:
         return HttpResponseServerError()
