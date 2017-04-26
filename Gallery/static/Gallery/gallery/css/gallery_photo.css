@@ -1,0 +1,24 @@
+.list-group-item {
+    background: #0ac9f6;
+    border-width: 0.4rem;
+    border-color: #ffffff;
+    margin-bottom:20px;
+}
+
+.item-name{
+    width:100%;
+    word-wrap: break-word;
+    color: #ffffff;
+}
+
+.item-img{
+    width:100%;
+    height:100%;
+}
+
+.nav-path{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:700px;
+    white-space: nowrap;
+}

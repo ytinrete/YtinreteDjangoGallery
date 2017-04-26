@@ -2,6 +2,7 @@ from subprocess import call
 import os
 import shutil
 import YtinreteDjangoGallery.configs
+import glob
 
 
 # call(["ls", "-l"])
@@ -196,32 +197,45 @@ def copy_structure_with_pics():
 
 def construct_photo_structure():
     structure_src = YtinreteDjangoGallery.configs.PHOTO_SRC_PATH
-    structure_dist = YtinreteDjangoGallery.configs.PHOTO_Dist_PATH
+    structure_dist = YtinreteDjangoGallery.configs.PHOTO_DIST_PATH
 
     if os.path.exists(structure_dist):
         shutil.rmtree(structure_dist)
 
-    os.makedirs(structure_dist)
+    # os.makedirs(structure_dist)
     count = 1
 
-    for first in os.listdir(structure_src):
-        if first.startswith('.'):
-            continue
-        if not os.path.exists(structure_dist + '/' + first):
-            os.makedirs(structure_dist + '/' + first)
+    print('begin')
+    def ignore_files(dir, files):
+        ignore = []
+        for file in files:
+            if os.path.isfile(dir + '/' + file) and not str(file).endswith('.jpg'):
+                ignore.append(file)
+        return ignore
+    shutil.copytree(structure_src, structure_dist, ignore=ignore_files)
+    print('end')
 
-        for group in os.listdir(structure_src + '/' + first):
-            if group.startswith('.'):
-                continue
-            if not os.path.exists(structure_dist + '/' + first + '/' + group):
-                os.makedirs(structure_dist + '/' + first + '/' + group)
+    return
 
-            for pic in os.listdir(structure_src + '/' + first+ '/' + group):
-                if pic.endswith('jpg'):
-                    shutil.copy(structure_src+ '/' + first + '/' + group + '/'
-                                + pic, structure_dist+ '/' + first + '/' + group + '/' + pic)
-                    count += 1
-                    print("count:" + str(count))
+    # for first in os.listdir(structure_src):
+    #     if first.startswith('.'):
+    #         continue
+    #     if not os.path.exists(structure_dist + '/' + first):
+    #         os.makedirs(structure_dist + '/' + first)
+    #     for group in os.listdir(structure_src + '/' + first):
+    #         if group.startswith('.'):
+    #             continue
+    #         if os.path.isfile(structure_src + '/' + first + '/' + group):
+    #             continue
+    #         if not os.path.exists(structure_dist + '/' + first + '/' + group):
+    #             os.makedirs(structure_dist + '/' + first + '/' + group)
+    #
+    #         for pic in os.listdir(structure_src + '/' + first + '/' + group):
+    #             if pic.endswith('jpg'):
+    #                 shutil.copy(structure_src + '/' + first + '/' + group + '/'
+    #                             + pic, structure_dist + '/' + first + '/' + group + '/' + pic)
+    #                 count += 1
+    #                 print("count:" + str(count))
 
 
 if __name__ == '__main__':
@@ -231,6 +245,6 @@ if __name__ == '__main__':
 
     # copy_structure_with_pics()
 
-    construct_photo_structure()
+    # construct_photo_structure()
 
     pass

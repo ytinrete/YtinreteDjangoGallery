@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import Http404
 from django.http import HttpResponseServerError
 from django.http import JsonResponse
 
@@ -87,7 +88,28 @@ def get_js_tree_path(request):
             path = Tools.url_decode(request.GET.get('path'))
             print(path)
         else:
-            path = YtinreteDjangoGallery.configs.PHOTO_Dist_PATH
+            path = YtinreteDjangoGallery.configs.PHOTO_DIST_PATH
         return JsonResponse(Tools.get_js_tree_path(path), safe=False)
+    except IOError:
+        return HttpResponseServerError()
+
+
+def search_photo(request):
+    try:
+        data = request.GET.get('data')
+        if data:
+            res = []
+            print(data)
+            for root, dirs, files in os.walk(YtinreteDjangoGallery.configs.PHOTO_DIST_PATH):
+                for name in files:
+                    if name.find('.') != -1 and name.split('.')[-1] == "jpg" and name.find(data) != -1:
+                        block = {}
+                        block['name'] = name
+                        block['path'] = Tools.url_encode(root + '/' + name)
+                        res.append(block)
+            return JsonResponse(res, safe=False)
+        else:
+            return Http404()
+
     except IOError:
         return HttpResponseServerError()

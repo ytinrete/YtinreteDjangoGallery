@@ -1,0 +1,17 @@
+.title{
+text-align: center;
+margin-top: 20px;
+margin-bottom: 0px;
+color: #ffffff;
+font-size: 4rem;
+}
+
+.ga-btn-group {
+    margin: 2rem;
+    padding: 2rem;
+}
+
+@media (max-width: 667px) and (orientation : portrait) {
+.title{
+font-size: 2rem;
+}

@@ -17,6 +17,7 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'Gallery/gallery/css/base_style.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'Gallery/gallery/css/index_style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'Gallery/gallery/css/gallery_photo.css' %}"/>
 
     <link rel="stylesheet" type="text/css" href="{% static 'Gallery/gallery/css/dashboard.css' %}"/>
 
@@ -37,14 +38,26 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <button class="btn btn-outline-success my-2 my-sm-0 ml-2">Reconstruct DB</button>
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-2">&lt;&lt;</button>
             </li>
             <li class="nav-item">
-                <button class="btn btn-outline-success my-2 my-sm-0 ml-2">OutPut PhotoGallery</button>
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-2">&lt;</button>
+            </li>
+            <li class="nav-item">
+                <p class="nav-path text-white" id="navPath">...</p>
+            </li>
+
+            <li class="nav-item">
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-2">&gt;</button>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-2">&gt;&gt;</button>
             </li>
         </ul>
-        <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+
+
+        <form class="form-inline mt-2 mt-md-0" id="search">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="data" value="">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
@@ -52,40 +65,29 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
-
+        <nav class="col-sm-3 col-md-3 hidden-xs-down bg-faded sidebar">
             <div id="jstree">
-
             </div>
-
         </nav>
-
-        <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-            <h1>Dashboard</h1>
-
+        <main class="offset-md-3 pt-3">
             <div class="container container-fluid ">
-                <div id = "list" class="list-group ">
-
-
-                    <div class="list-group-item card"
-                         style="background: #0ac9f6;border-width: 0.4rem;border-color: #ffffff;margin-bottom:20px;">
-
-                        <h2 class="item_author" id="fileName" style="color: #ffffff"></h2>
-                        <img id="pic" src="" style="width:100%;height:100%"/>
-
-                    </div>
-
-
+                <div id="dataList" class="list-group ">
                 </div>
-
             </div>
-
-
         </main>
     </div>
 </div>
 
 </body>
-<script src="{% static 'Gallery/gallery/js/jstree.js' %}"></script>
+<script src="{% static 'Gallery/gallery/js/photo_gallery.js' %}"></script>
+
+<script>
+
+
+
+
+
+
+</script>
 
 </html>
