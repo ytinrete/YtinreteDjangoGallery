@@ -70,6 +70,8 @@ def construct_data_structure_to_json_object(path):
 def get_js_tree_path(path):
     json_data = []
     for sub in os.listdir(path):
+        if os.path.isfile(path + '/' + sub) and sub.startswith('.'):
+            continue
         block = {}
         block['text'] = sub
         block['id'] = url_encode(path + '/' + sub)
@@ -120,13 +122,19 @@ def opt_jump_photo(path, type, root):
     if type == '10' or type == '-10':
         # first one in next blok
         file_list, folder = jump_group(path, type)
-        res_path = folder + '/' + file_list[0]
-        print(res_path)
-        return {"name": os.path.basename(res_path), "path": url_encode(res_path)}
+        for tmp_file in file_list:
+            if tmp_file.endswith('.jpg'):
+                res_path = folder + '/' + tmp_file
+                print(res_path)
+                return {"name": os.path.basename(res_path), "path": url_encode(res_path)}
     elif type == '1' or type == '-1':
         file_name = os.path.basename(path)
         parent = get_parent_folder(path)
-        sub_file_list = os.listdir(parent)
+        sub_file_list_tmps = os.listdir(parent)
+        sub_file_list = []
+        for sub_file_list_tmp in sub_file_list_tmps:
+            if sub_file_list_tmp.endswith('.jpg'):
+                sub_file_list.append(sub_file_list_tmp)
         # sorted(sub_file_list)
         index = 0
         for i in range(0, len(sub_file_list)):
@@ -135,13 +143,21 @@ def opt_jump_photo(path, type, root):
                 break
         if type == '1':
             if index == len(sub_file_list) - 1:
-                file_list, folder = jump_group(path, "10")
+                file_list_tmps, folder = jump_group(path, "10")
+                file_list = []
+                for file_list_tmp in file_list_tmps:
+                    if file_list_tmp.endswith('.jpg'):
+                        file_list.append(file_list_tmp)
                 res_path = folder + '/' + file_list[0]
             else:
                 res_path = parent + '/' + sub_file_list[index + 1]
         else:
             if index == 0:
-                file_list, folder = jump_group(path, "-10")
+                file_list_tmps, folder = jump_group(path, "-10")
+                file_list = []
+                for file_list_tmp in file_list_tmps:
+                    if file_list_tmp.endswith('.jpg'):
+                        file_list.append(file_list_tmp)
                 res_path = folder + '/' + file_list[-1]
             else:
                 res_path = parent + '/' + sub_file_list[index - 1]
@@ -161,7 +177,10 @@ def get_random(folder):
     sub_list = os.listdir(folder)
     pick_up = sub_list[random.randint(0, len(sub_list) - 1)]
     if os.path.isfile(folder + '/' + pick_up):
-        return folder + '/' + pick_up
+        if not str(pick_up).endswith('.jpg'):
+            return get_random(folder)
+        else:
+            return folder + '/' + pick_up
     else:
         return get_random(folder + '/' + pick_up)
 

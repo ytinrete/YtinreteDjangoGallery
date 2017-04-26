@@ -206,16 +206,30 @@ def construct_photo_structure():
     count = 1
 
     print('begin')
+
     def ignore_files(dir, files):
         ignore = []
         for file in files:
             if os.path.isfile(dir + '/' + file) and not str(file).endswith('.jpg'):
                 ignore.append(file)
         return ignore
+
     shutil.copytree(structure_src, structure_dist, ignore=ignore_files)
     print('end')
 
     return
+
+
+def fix_name():
+    for root, dirs, files in os.walk(YtinreteDjangoGallery.configs.PHOTO_DIST_PATH):
+        for name in files:
+            if os.path.isfile(root + '/' + name):
+                if not name.find('%') == -1:
+                    print("find:" + name)
+                    new_name = name.replace('%', '_')
+                    print(new_name)
+
+    pass
 
     # for first in os.listdir(structure_src):
     #     if first.startswith('.'):
@@ -239,6 +253,7 @@ def construct_photo_structure():
 
 
 if __name__ == '__main__':
+    # fix_name()
     # load_from_data_txt()
 
     # move_from_exist()

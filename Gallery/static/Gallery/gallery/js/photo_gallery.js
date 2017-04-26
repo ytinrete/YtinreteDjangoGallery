@@ -40,15 +40,15 @@ function jump(type){
 
 document.addEventListener('keydown', function(event) {
     console.log(event.keyCode);
-    if(event.keyCode == 52) {
+    if(event.keyCode == 52||event.keyCode == 100) {
         jump("-10")
-    } else if(event.keyCode == 54) {
+    } else if(event.keyCode == 54||event.keyCode == 102) {
         jump("10")
-    } else if(event.keyCode == 56) {
+    } else if(event.keyCode == 56||event.keyCode == 104) {
         jump("-1")
-    } else if(event.keyCode == 50) {
+    } else if(event.keyCode == 50||event.keyCode == 98) {
         jump("1")
-    } else if(event.keyCode == 48) {
+    } else if(event.keyCode == 48||event.keyCode == 96) {
         jump("0")
     }
 });

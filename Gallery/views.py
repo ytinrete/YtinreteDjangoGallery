@@ -100,7 +100,7 @@ def search_photo(request):
         if data:
             res = []
             print(data)
-            for root, dirs, files in os.walk(YtinreteDjangoGallery.configs.PHOTO_DIST_PATH):
+            for root, dirs, files in os.walk(YtinreteDjangoGallery.configs.PHOTO_SEARCH_PATH):
                 for name in files:
                     if name.find('.') != -1 and name.split('.')[-1] == "jpg" and name.find(data) != -1:
                         block = {}
