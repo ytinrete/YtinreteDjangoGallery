@@ -2,9 +2,9 @@
 function addBlock(name, src){
     var dataList = $("#dataList").get(0)
     var html = dataList.innerHTML
-    html += '<div class="list-group-item card"><h2 class="item-name" id="fileName">'
+    html += '<div class="list-group-item card"><p class="item-name" id="fileName">'
     html += decodeURIComponent(name)
-    html+= '</h2><img class ="item-img" id="pic" src="'
+    html+= '</p><img class ="item-img" id="pic" src="'
     html += 'getImage/?path='+src
     html+='"/>'
     dataList.innerHTML = html
@@ -32,6 +32,7 @@ function jump(type){
             addBlock(response["path"], response["path"])
             var navPath = $("#navPath").get(0)
             navPath.innerHTML = decodeURIComponent(response["path"])
+            $('#jstree').jstree(true).search(response["name"])
         }else{
             addBlock("no such photo", "404,jpg")
         }

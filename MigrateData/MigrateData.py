@@ -196,8 +196,8 @@ def copy_structure_with_pics():
 
 
 def construct_photo_structure():
-    structure_src = YtinreteDjangoGallery.configs.PHOTO_SRC_PATH
-    structure_dist = YtinreteDjangoGallery.configs.PHOTO_DIST_PATH
+    structure_src = '//WDMYCLOUD/data/Collections/videos'
+    structure_dist = 'C:/Users/ytinrete/Desktop/download/test'
 
     if os.path.exists(structure_dist):
         shutil.rmtree(structure_dist)

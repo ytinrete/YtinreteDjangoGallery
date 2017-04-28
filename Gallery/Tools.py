@@ -67,6 +67,26 @@ def construct_data_structure_to_json_object(path):
     return current_data
 
 
+def get_js_tree_path_plus(path):
+    if not os.path.exists(path) and not os.path.isdir(path):
+        return
+    json_data = []
+    for sub in os.listdir(path):
+        block = {}
+        block['text'] = sub
+        block['id'] = url_encode(path + '/' + sub)
+        if os.path.isfile(path + '/' + sub) and sub.startswith('.'):
+            continue
+        if os.path.isfile(path + '/' + sub):
+            block['type'] = 'file'
+        else:
+            block['type'] = 'folder'
+            if len(os.listdir(path + '/' + sub)) > 0:
+                block['children'] = get_js_tree_path_plus(path + '/' + sub)
+        json_data.append(block)
+    return json_data
+
+
 def get_js_tree_path(path):
     json_data = []
     for sub in os.listdir(path):
@@ -186,6 +206,7 @@ def get_random(folder):
 
 
 if __name__ == '__main__':
+    # print(json.dumps(get_js_tree_path_plus('C:/Users/ytinrete/test/videos')))
     # test = '/Users/lirui/Desktop/testPic2/movies/tag1/073ef62618a387a908d18776.jpg'
     # print(json.dumps(construct_data_structure_to_json_object('/Users/lirui/Desktop/testPic')))
     # print(json.dumps(get_js_tree_path('/Users/lirui/Desktop/testPic')))

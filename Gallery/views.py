@@ -89,7 +89,7 @@ def get_js_tree_path(request):
             print(path)
         else:
             path = YtinreteDjangoGallery.configs.PHOTO_DIST_PATH
-        return JsonResponse(Tools.get_js_tree_path(path), safe=False)
+        return JsonResponse(Tools.get_js_tree_path_plus(path), safe=False)
     except IOError:
         return HttpResponseServerError()
 
